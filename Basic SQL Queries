@@ -1,0 +1,84 @@
+BASIC SQL QUERIES:
+
+/* CREATE EmployeeDemographics table */
+CREATE TABLE EmployeeDemographics
+(EmployeeID int,
+FirstName varchar(50),
+LastName varchar(50),
+Age int,
+Gender varchar(50))
+
+/* CREATE EmployeeSalary table */
+CREATE TABLE EmployeeSalary
+(EmployeeID int,
+JobTitle varchar(50),
+Salary int)
+
+/* INSERT data into EmployeeDemographics table */
+INSERT INTO EmployeeDemographics VALUES
+(101, 'Jane', 'Kary', 25, 'Female')
+(102, 'Pam', 'Beasley', 30, 'Female'),
+(103, 'Lisa', 'Schrute', 29, 'Female'),
+(104, 'Angela', 'Martin', 31, 'Female'),
+(105, 'Toby', 'Flenderson', 32, 'Male'),
+(106, 'Michael', 'Scott', 35, 'Male'),
+(107, 'Nikhilesh', 'Kumar', 24, 'Male'),
+(108, 'Stanley', 'Hudson', 38, 'Male'),
+(109, 'Kevin', 'Malone', 31, 'Male')
+
+/* INSERT data into EmployeeSalary table */
+Insert Into EmployeeSalary VALUES
+(101, ‘HR’, 45000),
+(102, 'Receptionist', 36000),
+(103, ‘Accountant’, 63000),
+(104, 'Accountant', 47000),
+(105, ‘Salesman’, 50000),
+(106, 'Supplier Relations', 41000),
+(107, 'Regional Manager', 65000),
+(108, 'Salesman', 48000),
+(109, ‘Salesman’, 42000)
+
+/****** SELECT statement - Top, Distinct, Count, As, Max, Min, Avg  ******/
+SELECT TOP 5 * FROM EmployeeDemographics
+
+SELECT DISTINCT(Gender) FROM EmployeeDemographics
+
+SELECT COUNT(FirstName) AS FirstName_Count FROM EmployeeDemographics
+
+SELECT MAX(Salary) FROM EmployeeSalary
+
+SELECT MIN(Salary) FROM EmployeeSalary
+
+SELECT AVG(Salary) FROM EmployeeSalary
+
+
+/*** SELECT statement with WHERE -=, <>, <, >, AND, OR, LIKE, NULL, NOT NULL, IN  ***/
+
+SELECT * FROM EmployeeDemographics WHERE FirstName = 'Nikhilesh'
+
+SELECT * FROM EmployeeDemographics WHERE FirstName <> 'Lisa'
+
+SELECT * FROM EmployeeDemographics WHERE Age < 25
+
+SELECT * FROM EmployeeDemographics WHERE Age > 35
+
+SELECT * FROM EmployeeDemographics WHERE Age >= 32 AND Gender = 'Male'
+
+SELECT * FROM EmployeeDemographics WHERE Age >= 32 OR Gender = 'Male'
+
+SELECT * FROM EmployeeDemographics WHERE LastName LIKE '%O%'
+
+SELECT * FROM EmployeeDemographics WHERE LastName IS NULL
+
+SELECT * FROM EmployeeDemographics WHERE LastName IS NOT NULL
+
+SELECT * FROM EmployeeDemographics WHERE LastName IN ('Martin', 'Scott')
+
+/****** SELECT statement with GROUP BY, ORDER BY  ******/
+
+SELECT Gender FROM EmployeeDemographics GROUP BY Gender
+SELECT * FROM EmployeeDemographics ORDER BY FirstName
+
+/*** Show whose age is over 30, list alphabetically ****/
+
+SELECT * FROM EmployeeDemographics WHERE Age > 30 ORDER BY FirstName
