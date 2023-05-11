@@ -1,0 +1,95 @@
+INTERMEDIATE SQL QUERIES:
+=========================
+
+/*
+	SELECT statement with Inner Joins, Left/Right Outer Joins
+*/
+
+SELECT*
+FROM EmployeeDemographics
+INNER JOIN EmployeeSalary 
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+
+/*
+	SELECT statement with Inner Joins, Left/Right Outer Joins
+*/
+
+SELECT EmployeeDemographics.EmployeeID,FirstName,LastName,JobTitle,Salary
+FROM EmployeeDemographics
+INNER JOIN EmployeeSalary 
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+
+/* Findout Second TOP Highest Paid Employee */
+
+SELECT EmployeeDemographics.EmployeeID,FirstName,LastName,JobTitle,Salary
+FROM EmployeeDemographics
+INNER JOIN EmployeeSalary 
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+WHERE FirstName <> 'Nikhilesh' ORDER BY Salary DESC
+
+/* Findout Average salary of Salesman */
+
+SELECT JobTitle,AVG(Salary) as Avg_Salary
+FROM EmployeeDemographics
+INNER JOIN EmployeeSalary 
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+WHERE JobTitle = 'Salesman'
+GROUP BY JobTitle
+/*
+	UNION
+*/
+
+SELECT *
+FROM EmployeeDemographics
+UNION
+SELECT *
+FROM WarehouseEmployeeDemographics
+
+/*
+	SQL - Revised salary calculation using CASE
+*/
+
+SELECT FirstName, LastName, JobTitle, Salary,
+CASE
+	WHEN JobTitle = 'Salesman' THEN Salary + (Salary * 0.10)
+	WHEN JobTitle = 'Receptionist' THEN Salary + (Salary * 0.05)
+	WHEN JobTitle = 'Accountant' THEN Salary + (Salary * 0.025)
+	ELSE Salary + (Salary * 0.01)
+END AS SalaryRevised
+FROM EmployeeDemographics
+JOIN EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+
+
+/*
+	SQL - Counting More than one job title using HAVING
+*/
+
+SELECT JobTitle, COUNT(JobTitle)
+FROM EmployeeDemographics
+JOIN EmployeeSalary
+ON EmployeeDemographics.EmployeeID = EmployeeSalary.EmployeeID
+GROUP BY JobTitle
+HAVING COUNT(JobTitle) > 1
+
+/*
+	SQL - ALIASING
+*/
+
+SELECT Demo.EmployeeID, Demo.FirstName, Demo.LastName, Sal.JobTitle, Ware.Age
+FROM [SQL Queries].[dbo].[EmployeeDemographics] Demo
+LEFT JOIN [SQL Queries].[dbo].[EmployeeSalary] Sal
+ ON Demo.EmployeeID = Sal.EmployeeID
+LEFT JOIN [SQL Queries].[dbo].[WarehouseEmployeeDemographics] Ware
+ ON Demo.EmployeeID = Ware.EmployeeID
+
+*
+	SQL - PARTITION BY
+*/
+
+SELECT Demo.EmployeeID, Demo.FirstName, Demo.LastName, Demo.Gender,
+COUNT(Gender) OVER (PARTITION BY Gender) AS TotalGender
+FROM [SQL Queries].[dbo].[EmployeeDemographics] Demo
+JOIN [SQL Queries].[dbo].[EmployeeSalary] Sal
+ ON Demo.EmployeeID = Sal.EmployeeID
+
